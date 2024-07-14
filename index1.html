@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bd">
+    <div class="big">
+        <div class="mid">
+            <input class="inp"><button class="btn-3">checkweather</button>
+        </div>
+        <div class="city">
+            <h1 class="err">THERE IS SOME ERROR</h1>
+            <h1 class="mum">Mumba</h1>
+            <h1 class="deg">Degree</h1>
+            <h1 class="ddd">50 </h1>
+            <h2 >Wind speed</h2>
+            <H2 class="win">50 km/ph</H2>
+            <h2> Humidity</h2>
+            <h2 class="hum">50%</h2>
+        </div>
+    </div>
+</body>
+<script> 
+const apikey="74442c8980d1936fd16e98145924e5f0";
+const url="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+let sap= document.querySelector(`.inp`);
+const ap= document.querySelector(`.btn-3`);
+async function checkweather(city){
+    const fee= await fetch(url+city+`&appid=${apikey}`);
+    if(fee.status==404){
+        document.querySelector(".err").style.display="block";
+        document.querySelector(".city").style.display="none";
+    }else{
+    const jsa=await fee.json();
+    console.log(jsa)
+    document.querySelector(`.mum`).innerHTML=jsa.name;
+    document.querySelector(`.win`).innerHTML=jsa.wind.speed+"km/hr"
+    document.querySelector(`.hum`).innerHTML=jsa.main.humidity +"%";
+    document.querySelector(`.ddd`).innerHTML=Math.round(jsa.main.temp)+" °C"
+    document.querySelector(".err").style.display="none";
+    document.querySelector(".city").style.display="block";
+}
+    }
+    
+ap.addEventListener(`click`,()=>{
+    checkweather(sap.value)
+})
+// checkweather(`mumbai`);
+</script>
+</html>
